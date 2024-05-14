@@ -25,6 +25,7 @@ public class Security_Management {
             rs = st.executeQuery();
             while(rs.next()){
                 System.out.println(rs.getString("dob"));
+                
             }
             
             
