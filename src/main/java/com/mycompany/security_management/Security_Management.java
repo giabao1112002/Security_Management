@@ -22,17 +22,17 @@ public class Security_Management {
         PreparedStatement st; // Declare the PreparedStatement variable.
         ResultSet rs; // Declare the ResultSet variable.
         new LoginManager().setVisible(true);
-        
-        try{
-            st = con.prepareStatement("SELECT * FROM MANAGER");
+
+        try {
+            st = con.prepareStatement("SELECT * FROM security");
             rs = st.executeQuery();
-            while(rs.next()){
-                System.out.println(rs.getString("SSN"));
-                
+            while (rs.next()) {
+                System.out.println(rs.getString("prefix") + rs.getString("idSecurity"));
+                System.out.println(rs.getString("DateOfBirth"));
+
             }
-            
-            
-        }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             Logger.getLogger(Security_Management.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

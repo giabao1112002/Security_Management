@@ -8,7 +8,19 @@ package com.mycompany.security_management;
  *
  * @author DELL
  */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 public class LoginManager extends javax.swing.JFrame {
+
+    Connection con = DBContext.connect();
+    PreparedStatement st; // Declare the PreparedStatement variable.
+    ResultSet rs; // Declare the ResultSet variable.
 
     public LoginManager() {
         initComponents();
@@ -37,8 +49,8 @@ public class LoginManager extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jTextField1 = new javax.swing.JTextField();
+        jPasswordField_Password = new javax.swing.JPasswordField();
+        jTextField_Username = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jButton_Regis = new javax.swing.JButton();
@@ -84,9 +96,9 @@ public class LoginManager extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_Username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextField_UsernameActionPerformed(evt);
             }
         });
 
@@ -94,6 +106,11 @@ public class LoginManager extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Login");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Do not have an account?");
 
@@ -142,8 +159,8 @@ public class LoginManager extends javax.swing.JFrame {
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jButton_Regis))
-                                .addComponent(jTextField1)
-                                .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+                                .addComponent(jTextField_Username)
+                                .addComponent(jPasswordField_Password, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -157,11 +174,11 @@ public class LoginManager extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPasswordField_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -234,9 +251,9 @@ public class LoginManager extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextField_UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_UsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextField_UsernameActionPerformed
 
     private void jComboBox_LogSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_LogSelectActionPerformed
         String select = jComboBox_LogSelect.getSelectedItem().toString();
@@ -254,6 +271,35 @@ public class LoginManager extends javax.swing.JFrame {
         new Register_Manager().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton_RegisActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String user = jTextField_Username.getText();
+        String password = new String(jPasswordField_Password.getPassword());
+        boolean flag = false;
+        try {
+            st = con.prepareStatement("SELECT * FROM security_management.manager");
+            rs = st.executeQuery();
+            while (rs.next()) {
+                String uname = rs.getString("Prefix") + rs.getString("idManager");
+                String passw = rs.getString("Password");
+                String user_send = rs.getString("idManager");
+                if (password.equals(passw) && user.equals(uname)) {
+                    JOptionPane.showMessageDialog(this, "Success Login");
+
+                    new Manager_Interface(user_send, password).setVisible(true);
+                    this.setVisible(false);
+                    flag = true;
+                }
+
+            }
+            if (flag == false) {
+                JOptionPane.showMessageDialog(this, "Invalid Login");
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login_Security.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -307,8 +353,8 @@ public class LoginManager extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JPasswordField jPasswordField_Password;
     private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField_Username;
     // End of variables declaration//GEN-END:variables
 }
