@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /**
  *
@@ -20,6 +21,7 @@ public class Security_Management {
         Connection con = DBContext.connect();
         PreparedStatement st; // Declare the PreparedStatement variable.
         ResultSet rs; // Declare the ResultSet variable.
+        new LoginManager().setVisible(true);
         
         try{
             st = con.prepareStatement("SELECT * FROM MANAGER");
