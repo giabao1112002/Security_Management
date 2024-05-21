@@ -21,7 +21,7 @@ public class DBContext {
 // loading mysql driver class
             Class.forName("com.mysql.cj.jdbc.Driver");
 // creating connection with database
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/bankproject", "root", "root");
+            return DriverManager.getConnection("jdbc:mysql://localhost:3306/security_management", "root", "root");
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
