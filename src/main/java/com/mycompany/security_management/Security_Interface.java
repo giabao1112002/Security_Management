@@ -4,17 +4,37 @@
  */
 package com.mycompany.security_management;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 /**
  *
  * @author DELL
  */
 public class Security_Interface extends javax.swing.JFrame {
 
+    String Staff_id;
+    String DOB;
+    Connection con = DBContext.connect();
+    PreparedStatement st; // Declare the PreparedStatement variable.
+    ResultSet rs; // Declare the ResultSet variable.
+    String ssn;
+
     /**
      * Creates new form Security_Interface
      */
     public Security_Interface() {
         initComponents();
+        this.setLocationRelativeTo(this);
+        this.setResizable(false);
+    }
+
+    public Security_Interface(String user_send, String password) {
+        Staff_id = user_send;
+        DOB = password;
+        initComponents();
+      
     }
 
     /**
@@ -26,17 +46,27 @@ public class Security_Interface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("hiiiiiii");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(103, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         pack();
@@ -78,5 +108,6 @@ public class Security_Interface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

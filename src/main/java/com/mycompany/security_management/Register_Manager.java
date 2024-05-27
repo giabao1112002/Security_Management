@@ -4,15 +4,24 @@
  */
 package com.mycompany.security_management;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DELL
  */
 public class Register_Manager extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Register_Manager
-     */
+    Connection con = DBContext.connect();
+    PreparedStatement st; // Declare the PreparedStatement variable.
+    ResultSet rs; // Declare the ResultSet variable.
+
     public Register_Manager() {
         initComponents();
         this.setLocationRelativeTo(this);
@@ -38,13 +47,13 @@ public class Register_Manager extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextField_Username = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jComboBox_LogSelect = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        jTextField_Password = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextField_Email = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,14 +84,14 @@ public class Register_Manager extends javax.swing.JFrame {
         jLabel6.setText("Register");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("User Name:");
+        jLabel7.setText("Full Name:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_Username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextField_UsernameActionPerformed(evt);
             }
         });
 
@@ -125,9 +134,9 @@ public class Register_Manager extends javax.swing.JFrame {
                         .addGap(27, 27, 27))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField2)
+                            .addComponent(jTextField_Password)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                            .addComponent(jTextField_Username, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(11, 11, 11)))
@@ -136,7 +145,7 @@ public class Register_Manager extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -151,15 +160,15 @@ public class Register_Manager extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel7)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -226,12 +235,37 @@ public class Register_Manager extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextField_UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_UsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextField_UsernameActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String username = jTextField_Username.getText();
+        String password = jTextField_Password.getText();
+        String email = jTextField_Email.getText();
+
+        if (!username.equals("") || !password.equals("") || !email.equals("")) {
+            try {
+                st = con.prepareStatement("INSERT INTO `security_management`.`manager` (`Name`, `Password`, `Email`) VALUES (?,?,?)");
+                st.setString(1, username);
+                st.setString(2, password);
+                st.setString(3, email);
+                int k = st.executeUpdate();
+                if (k == 1) {
+                    showAccount(email, password);
+                    JOptionPane.showMessageDialog(this, "Record Added Successfully");
+
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Register_Manager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "All information can not be blank!!!");
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox_LogSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_LogSelectActionPerformed
@@ -281,6 +315,26 @@ public class Register_Manager extends javax.swing.JFrame {
         });
     }
 
+    public void showAccount(String email, String password) {
+
+        try {
+            st = con.prepareStatement("SELECT * FROM security_management.manager");
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                String Email = rs.getString("Email");
+                String Password = rs.getString("Password");
+                if (Email.equals(email) && Password.equals(password)) {
+                    String Username = "M" + rs.getString("idManager");
+                    String password1 = rs.getString("Password");
+                    JOptionPane.showMessageDialog(this, "This is your username: " + Username);
+                    JOptionPane.showMessageDialog(this, "This is your password: " + password1);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Register_Manager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox_LogSelect;
@@ -296,8 +350,8 @@ public class Register_Manager extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField_Email;
+    private javax.swing.JTextField jTextField_Password;
+    private javax.swing.JTextField jTextField_Username;
     // End of variables declaration//GEN-END:variables
 }

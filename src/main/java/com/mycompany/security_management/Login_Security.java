@@ -4,8 +4,13 @@
  */
 package com.mycompany.security_management;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,9 +18,10 @@ import java.util.logging.Logger;
  */
 public class Login_Security extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login_Security
-     */
+    Connection con = DBContext.connect();
+    PreparedStatement st; // Declare the PreparedStatement variable.
+    ResultSet rs; // Declare the ResultSet variable.
+
     public Login_Security() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -41,8 +47,8 @@ public class Login_Security extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jTextField1 = new javax.swing.JTextField();
+        jPasswordField_Password = new javax.swing.JPasswordField();
+        jTextField_Username = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -83,15 +89,15 @@ public class Login_Security extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
 
-        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
+        jPasswordField_Password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField2ActionPerformed(evt);
+                jPasswordField_PasswordActionPerformed(evt);
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_Username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextField_UsernameActionPerformed(evt);
             }
         });
 
@@ -99,6 +105,11 @@ public class Login_Security extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Login");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Do not have an account?");
 
@@ -138,8 +149,8 @@ public class Login_Security extends javax.swing.JFrame {
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2))
-                            .addComponent(jTextField1)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
+                            .addComponent(jTextField_Username)
+                            .addComponent(jPasswordField_Password, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
                         .addContainerGap(55, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -163,11 +174,11 @@ public class Login_Security extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPasswordField_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -238,9 +249,9 @@ public class Login_Security extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextField_UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_UsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextField_UsernameActionPerformed
 
     private void jComboBox_LogSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_LogSelectActionPerformed
         String select = jComboBox_LogSelect.getSelectedItem().toString();
@@ -258,9 +269,39 @@ public class Login_Security extends javax.swing.JFrame {
         new Register_Security().setVisible(true);
         this.setVisible(false);    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
+    private void jPasswordField_PasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField_PasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField2ActionPerformed
+    }//GEN-LAST:event_jPasswordField_PasswordActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String user = jTextField_Username.getText();
+        String password = new String(jPasswordField_Password.getPassword());
+        boolean flag = false;
+        try {
+            st = con.prepareStatement("SELECT * FROM security_management.security");
+            rs = st.executeQuery();
+            while (rs.next()) {
+                String uname = rs.getString("Prefix") + rs.getString("idSecurity");
+                String passw = rs.getString("Password");
+                String user_send = rs.getString("idSecurity");
+                if (password.equals(passw) && user.equals(uname)) {
+                    JOptionPane.showMessageDialog(this, "Success Login");
+
+                    new Security_Interface(user_send, password).setVisible(true);
+                    this.setVisible(false);
+                    flag = true;
+                }
+
+            }
+            if (flag == false) {
+                JOptionPane.showMessageDialog(this, "Invalid Login");
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login_Security.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,7 +354,7 @@ public class Login_Security extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField jPasswordField_Password;
+    private javax.swing.JTextField jTextField_Username;
     // End of variables declaration//GEN-END:variables
 }

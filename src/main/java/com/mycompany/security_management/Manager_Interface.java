@@ -4,17 +4,34 @@
  */
 package com.mycompany.security_management;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 /**
  *
  * @author DELL
  */
 public class Manager_Interface extends javax.swing.JFrame {
-
+    String Manager_id;
+    String DOB;
+    Connection con = DBContext.connect();
+    PreparedStatement st; // Declare the PreparedStatement variable.
+    ResultSet rs; // Declare the ResultSet variable.
+    String ssn;
     /**
      * Creates new form Manager_Interface
      */
     public Manager_Interface() {
         initComponents();
+        this.setLocationRelativeTo(this);
+        this.setResizable(false);
+    }
+    public Manager_Interface(String user_send, String password) {
+        Manager_id = user_send;
+        DOB = password;
+        initComponents();
+      
     }
 
     /**
@@ -26,17 +43,27 @@ public class Manager_Interface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Hello");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(160, 160, 160)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(203, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addComponent(jLabel1)
+                .addContainerGap(181, Short.MAX_VALUE))
         );
 
         pack();
@@ -78,5 +105,6 @@ public class Manager_Interface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
