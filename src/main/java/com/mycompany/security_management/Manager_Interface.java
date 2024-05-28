@@ -50,7 +50,7 @@ public class Manager_Interface extends javax.swing.JFrame {
 
         jLabel1.setText("Hello");
 
-        jLabel2.setText("jLabel2");
+        jLabel2.setText("hi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
