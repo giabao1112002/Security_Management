@@ -254,7 +254,8 @@ public class Register_Manager extends javax.swing.JFrame {
                 if (k == 1) {
                     showAccount(email, password);
                     JOptionPane.showMessageDialog(this, "Record Added Successfully");
-
+                    this.setVisible(false);
+                    new LoginManager().setVisible(true);
                 }
 
             } catch (SQLException ex) {

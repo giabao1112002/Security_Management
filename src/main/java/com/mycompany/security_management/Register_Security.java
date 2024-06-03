@@ -259,7 +259,8 @@ public class Register_Security extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Record Added Successfully");
 
                 }
-
+                this.setVisible(false);
+                new Login_Security().setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Register_Manager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -314,7 +315,8 @@ public class Register_Security extends javax.swing.JFrame {
             }
         });
     }
-public void showAccount(String email, String password) {
+
+    public void showAccount(String email, String password) {
 
         try {
             st = con.prepareStatement("SELECT * FROM security_management.security");
@@ -324,7 +326,7 @@ public void showAccount(String email, String password) {
                 String Email = rs.getString("Email");
                 String Password = rs.getString("Password");
                 if (Email.equals(email) && Password.equals(password)) {
-                    String Username = "M" + rs.getString("idSecurity");
+                    String Username = "S" + rs.getString("idSecurity");
                     String password1 = rs.getString("Password");
                     JOptionPane.showMessageDialog(this, "This is your username: " + Username);
                     JOptionPane.showMessageDialog(this, "This is your password: " + password1);
