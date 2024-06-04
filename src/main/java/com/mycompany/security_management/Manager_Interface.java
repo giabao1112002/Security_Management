@@ -25,7 +25,6 @@ public class Manager_Interface extends javax.swing.JFrame {
     Connection con = DBContext.connect();
     PreparedStatement st; // Declare the PreparedStatement variable.
     ResultSet rs; // Declare the ResultSet variable.
-    String ssn;
 
     /**
      * Creates new form Manager_Interface

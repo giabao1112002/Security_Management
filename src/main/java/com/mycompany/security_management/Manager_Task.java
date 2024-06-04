@@ -4,11 +4,27 @@
  */
 package com.mycompany.security_management;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Duy
  */
 public class Manager_Task extends javax.swing.JFrame {
+
+    String Manager_id;
+    String PASSWORD;
+    Connection con = DBContext.connect();
+    PreparedStatement st; // Declare the PreparedStatement variable.
+    ResultSet rs; // Declare the ResultSet variable.
 
     /**
      * Creates new form Manager_Task
@@ -236,7 +252,7 @@ public class Manager_Task extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Area A", "Area B", "Area C", "Area D" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -383,7 +399,7 @@ public class Manager_Task extends javax.swing.JFrame {
                 model.addRow(row);
 
                 //                }
-        }
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
     }//GEN-LAST:event_jButton4ActionPerformed
