@@ -21,9 +21,9 @@ public class Security_Management {
         Connection con = DBContext.connect();
         PreparedStatement st; // Declare the PreparedStatement variable.
         ResultSet rs; // Declare the ResultSet variable.
-        new LoginManager().setVisible(true);
-
-        try {
+       // new LoginManager().setVisible(true);
+      
+        try { new LoginManager().setVisible(true);
             st = con.prepareStatement("SELECT * FROM security");
             rs = st.executeQuery();
             while (rs.next()) {

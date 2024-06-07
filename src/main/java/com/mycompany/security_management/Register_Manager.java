@@ -107,8 +107,6 @@ public class Register_Manager extends javax.swing.JFrame {
 
         jLabel10.setText("@ Cyber Security 2024. All rights reserved   ");
 
-        jComboBox_LogSelect.setBackground(new java.awt.Color(0, 0, 0));
-        jComboBox_LogSelect.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox_LogSelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Staff" }));
         jComboBox_LogSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -155,8 +155,19 @@ public class Manager_Task extends javax.swing.JFrame {
             }
         });
 
+        jTextField_Search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_SearchActionPerformed(evt);
+            }
+        });
+
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Delete");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton4.setText("Refresh");
@@ -180,8 +191,9 @@ public class Manager_Task extends javax.swing.JFrame {
                         .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(68, 68, 68)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(45, 45, 45)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)))
                 .addGap(27, 27, 27))
         );
         jPanel4Layout.setVerticalGroup(
@@ -369,10 +381,10 @@ public class Manager_Task extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable_informationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_informationMouseClicked
-        int row = jTable_information.rowAtPoint(evt.getPoint());
-        if (row >= 0) {
-            updateTextFields(row);
-        }
+//        int row = jTable_information.rowAtPoint(evt.getPoint());
+//        if (row >= 0) {
+//            updateTextFields(row);
+//        }
     }//GEN-LAST:event_jTable_informationMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -403,56 +415,68 @@ public class Manager_Task extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
     }//GEN-LAST:event_jButton4ActionPerformed
+    }
+    private void jButton_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LogoutActionPerformed
+        this.setVisible(false);
+        new LoginManager().setVisible(true);
+    }//GEN-LAST:event_jButton_LogoutActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String no = jTextField_sn.getText();
-        String name = jTextField_name.getText();
-        String birthday = jTextField_bd.getText();
-        String street = jTextField_street.getText();
-        String city = jTextField_city.getText();
-        String province = jTextField_province.getText();
-        String email = jTextField_email.getText();
-        String salary = jTextField_salary.getText();
-        try {
-
-            st = con.prepareStatement("UPDATE `security_management`.`security` SET `name` = ?, `DateOfBirth` = ?, `Salary` = ?, `street` = ?, `city` = ?, `province` = ?, `Email` = ? WHERE (`idSecurity` = ?);");
-            st.setString(1, name);
-            st.setString(2, birthday);
-            st.setString(3, salary);
-            st.setString(4, street);
-            st.setString(5, city);
-            st.setString(6, province);
-            st.setString(7, email);
-            st.setString(8, no);
-
-            int k = st.executeUpdate();
-
-            //                }
-        } catch (SQLException ex) {
-            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //        String no = jTextField_sn.getText();
+        //        String name = jTextField_name.getText();
+        //        String birthday = jTextField_bd.getText();
+        //        String street = jTextField_street.getText();
+        //        String city = jTextField_city.getText();
+        //        String province = jTextField_province.getText();
+        //        String email = jTextField_email.getText();
+        //        String salary = jTextField_salary.getText();
+        //        try {
+        //
+        //            st = con.prepareStatement("UPDATE `security_management`.`security` SET `name` = ?, `DateOfBirth` = ?, `Salary` = ?, `street` = ?, `city` = ?, `province` = ?, `Email` = ? WHERE (`idSecurity` = ?);");
+        //            st.setString(1, name);
+        //            st.setString(2, birthday);
+        //            st.setString(3, salary);
+        //            st.setString(4, street);
+        //            st.setString(5, city);
+        //            st.setString(6, province);
+        //            st.setString(7, email);
+        //            st.setString(8, no);
+        //
+        //            int k = st.executeUpdate();
+        //
+        //            //                }
+        //        } catch (SQLException ex) {
+        //            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        //        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField_SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_SearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_SearchActionPerformed
 
     private void jTextField_snActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_snActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_snActionPerformed
 
-    private void jTextField_streetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_streetActionPerformed
+    private void jTextField_salaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_salaryActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_streetActionPerformed
+    }//GEN-LAST:event_jTextField_salaryActionPerformed
 
     private void jTextField_cityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_cityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_cityActionPerformed
 
-    private void jTextField_salaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_salaryActionPerformed
+    private void jTextField_streetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_streetActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_salaryActionPerformed
+        try {
 
-    private void jButton_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LogoutActionPerformed
-        this.setVisible(false);
-        new LoginManager().setVisible(true);
-    }//GEN-LAST:event_jButton_LogoutActionPerformed
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jTextField_streetActionPerformed
 
     /**
      * @param args the command line arguments

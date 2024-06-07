@@ -87,7 +87,7 @@ public class Register_Security extends javax.swing.JFrame {
         jLabel6.setText("Register");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("User Name:");
+        jLabel7.setText("Full Name:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
@@ -110,8 +110,6 @@ public class Register_Security extends javax.swing.JFrame {
 
         jLabel10.setText("@ Cyber Security 2024. All rights reserved   ");
 
-        jComboBox_LogSelect.setBackground(new java.awt.Color(0, 0, 0));
-        jComboBox_LogSelect.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox_LogSelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Staff", "Manager" }));
         jComboBox_LogSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
