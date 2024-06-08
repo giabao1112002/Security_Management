@@ -87,7 +87,7 @@ public class Register_Security extends javax.swing.JFrame {
         jLabel6.setText("Register");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("User Name:");
+        jLabel7.setText("Full Name:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
@@ -110,8 +110,6 @@ public class Register_Security extends javax.swing.JFrame {
 
         jLabel10.setText("@ Cyber Security 2024. All rights reserved   ");
 
-        jComboBox_LogSelect.setBackground(new java.awt.Color(0, 0, 0));
-        jComboBox_LogSelect.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox_LogSelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Staff", "Manager" }));
         jComboBox_LogSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,7 +257,8 @@ public class Register_Security extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Record Added Successfully");
 
                 }
-
+                this.setVisible(false);
+                new Login_Security().setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Register_Manager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -314,7 +313,8 @@ public class Register_Security extends javax.swing.JFrame {
             }
         });
     }
-public void showAccount(String email, String password) {
+
+    public void showAccount(String email, String password) {
 
         try {
             st = con.prepareStatement("SELECT * FROM security_management.security");
@@ -324,7 +324,7 @@ public void showAccount(String email, String password) {
                 String Email = rs.getString("Email");
                 String Password = rs.getString("Password");
                 if (Email.equals(email) && Password.equals(password)) {
-                    String Username = "M" + rs.getString("idSecurity");
+                    String Username = "S" + rs.getString("idSecurity");
                     String password1 = rs.getString("Password");
                     JOptionPane.showMessageDialog(this, "This is your username: " + Username);
                     JOptionPane.showMessageDialog(this, "This is your password: " + password1);
