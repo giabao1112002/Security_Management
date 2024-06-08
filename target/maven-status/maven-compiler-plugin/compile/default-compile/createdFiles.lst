@@ -3,6 +3,7 @@ com\mycompany\security_management\Manager_Interface$13.class
 com\mycompany\security_management\Security_Interface$5.class
 com\mycompany\security_management\LoginManager.class
 com\mycompany\security_management\Register_Security$4.class
+com\mycompany\security_management\Manager_Interface$16.class
 com\mycompany\security_management\Security_Interface$2.class
 com\mycompany\security_management\Manager_Task$10.class
 com\mycompany\security_management\Login_Security$3.class
@@ -28,10 +29,13 @@ com\mycompany\security_management\Manager_Interface$7.class
 com\mycompany\security_management\Manager_Task$8.class
 com\mycompany\security_management\Register_Manager$3.class
 com\mycompany\security_management\LoginManager$4.class
+com\mycompany\security_management\ManagerInformation.class
+com\mycompany\security_management\ManagerInformation$1.class
 com\mycompany\security_management\Register_Security$1.class
 com\mycompany\security_management\Security_Interface$4.class
 com\mycompany\security_management\LoginManager$2.class
 com\mycompany\security_management\Login_Security$1.class
+com\mycompany\security_management\ManagerInformation$2.class
 com\mycompany\security_management\Manager_Interface$9.class
 com\mycompany\security_management\Register_Manager.class
 com\mycompany\security_management\Register_Security$2.class

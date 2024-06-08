@@ -25,14 +25,17 @@ public class Manager_Task extends javax.swing.JFrame {
     Connection con = DBContext.connect();
     PreparedStatement st; // Declare the PreparedStatement variable.
     ResultSet rs; // Declare the ResultSet variable.
+    String noTask;
 
     /**
      * Creates new form Manager_Task
      */
     public Manager_Task() {
         initComponents();
+        displayTask();
         this.setLocationRelativeTo(this);
         this.setResizable(false);
+        load();
     }
 
     /**
@@ -44,6 +47,7 @@ public class Manager_Task extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        datePicker1 = new raven.datetime.component.date.DatePicker();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -53,21 +57,18 @@ public class Manager_Task extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jTextField_Search = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField_sn = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField_street = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField_city = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField_salary = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextField_Name = new javax.swing.JTextField();
+        jComboBox_Area = new javax.swing.JComboBox<>();
+        jComboBox_shift = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField_date = new javax.swing.JTextField();
+        jComboBox_idStaff = new javax.swing.JComboBox<>();
         jButton_Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -122,7 +123,7 @@ public class Manager_Task extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "Name", "Start Date", "End Date", "Area", "Status"
+                "No Task", "Id Staff", "Name", "Date", "Shift Time", "Area"
             }
         ) {
             Class[] types = new Class [] {
@@ -169,14 +170,6 @@ public class Manager_Task extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton4.setText("Refresh");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -184,17 +177,15 @@ public class Manager_Task extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                        .addGap(30, 30, 30)
                         .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(68, 68, 68)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)))
-                .addGap(27, 27, 27))
+                        .addGap(142, 142, 142)))
+                .addGap(30, 30, 30))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,8 +196,7 @@ public class Manager_Task extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4))
+                    .addComponent(jButton1))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -214,7 +204,7 @@ public class Manager_Task extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(0, 0, 0), null));
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("Update Task");
+        jButton2.setText("Create Task");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -224,47 +214,43 @@ public class Manager_Task extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Staff Number");
 
-        jTextField_sn.setEnabled(false);
-        jTextField_sn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_snActionPerformed(evt);
-            }
-        });
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Name");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setText("Start Date");
-
-        jTextField_street.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_streetActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setText("End Date");
-
-        jTextField_city.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_cityActionPerformed(evt);
-            }
-        });
+        jLabel5.setText("Shift Time");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Area");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setText("Status");
-
-        jTextField_salary.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox_Area.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Area A", "Area B", "Area C", "Area D" }));
+        jComboBox_Area.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_salaryActionPerformed(evt);
+                jComboBox_AreaActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Area A", "Area B", "Area C", "Area D" }));
+        jComboBox_shift.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0am-8am", "8am-16pm", "16pm-0am" }));
+        jComboBox_shift.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_shiftActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setText("Date");
+
+        jTextField_date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_dateActionPerformed(evt);
+            }
+        });
+
+        jComboBox_idStaff.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox_idStaffMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -273,7 +259,9 @@ public class Manager_Task extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(29, 29, 29))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,21 +269,22 @@ public class Manager_Task extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField_sn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1)
-                            .addComponent(jComboBox1, 0, 201, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextField_Name)
+                                .addComponent(jComboBox_Area, 0, 201, Short.MAX_VALUE))
+                            .addComponent(jComboBox_idStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel9))
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField_city, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_street, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_salary, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(29, 29, 29))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox_shift, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(jTextField_date)))
+                        .addGap(165, 165, 165))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,21 +292,20 @@ public class Manager_Task extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField_sn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField_street, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField_city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField_salary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox_shift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_idStaff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(jTextField_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addComponent(jTextField_date, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox_Area, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -344,7 +332,7 @@ public class Manager_Task extends javax.swing.JFrame {
                         .addComponent(jButton_Logout))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,9 +353,8 @@ public class Manager_Task extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -381,102 +368,175 @@ public class Manager_Task extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable_informationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_informationMouseClicked
-//        int row = jTable_information.rowAtPoint(evt.getPoint());
-//        if (row >= 0) {
-//            updateTextFields(row);
-//        }
+        int row = jTable_information.getSelectedRow();
+        if (row >= 0) {
+            noTask = jTable_information.getValueAt(row, 0).toString();
+        }
     }//GEN-LAST:event_jTable_informationMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String searchName = jTextField_Search.getText();
+        searchAndSelectRow(searchName);
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            st = con.prepareStatement("SELECT * FROM security_management.security;");
-            rs = st.executeQuery();
-            DefaultTableModel model = (DefaultTableModel) jTable_information.getModel();
-            model.setRowCount(0);
-            while (rs.next()) {
-                String no = rs.getString(1);
-                String name = rs.getString(2);
-                String birthday = rs.getString(5);
-                String street = rs.getString(7);
-                String city = rs.getString(8);
-                String province = rs.getString(9);
-                String email = rs.getString(10);
-                String salary = rs.getString(6);
-
-                String[] row = {no, name, birthday, street, city, province, email, salary};
-                model.addRow(row);
-
-                //                }
+    private void searchAndSelectRow(String name) {
+        DefaultTableModel model = (DefaultTableModel) jTable_information.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String tableName = model.getValueAt(i, 2).toString().toLowerCase();
+            if (tableName.contains(name.toLowerCase())) {
+                // Select the row and scroll to it
+                jTable_information.setRowSelectionInterval(i, i);
+                jTable_information.scrollRectToVisible(jTable_information.getCellRect(i, 0, true));
+                return;
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
-    }//GEN-LAST:event_jButton4ActionPerformed
+        }
+        // If name not found, show a message dialog
+        JOptionPane.showMessageDialog(this, "Name not found", "Search Result", JOptionPane.INFORMATION_MESSAGE);
     }
+
     private void jButton_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LogoutActionPerformed
         this.setVisible(false);
         new LoginManager().setVisible(true);
     }//GEN-LAST:event_jButton_LogoutActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //        String no = jTextField_sn.getText();
-        //        String name = jTextField_name.getText();
-        //        String birthday = jTextField_bd.getText();
-        //        String street = jTextField_street.getText();
-        //        String city = jTextField_city.getText();
-        //        String province = jTextField_province.getText();
-        //        String email = jTextField_email.getText();
-        //        String salary = jTextField_salary.getText();
-        //        try {
-        //
-        //            st = con.prepareStatement("UPDATE `security_management`.`security` SET `name` = ?, `DateOfBirth` = ?, `Salary` = ?, `street` = ?, `city` = ?, `province` = ?, `Email` = ? WHERE (`idSecurity` = ?);");
-        //            st.setString(1, name);
-        //            st.setString(2, birthday);
-        //            st.setString(3, salary);
-        //            st.setString(4, street);
-        //            st.setString(5, city);
-        //            st.setString(6, province);
-        //            st.setString(7, email);
-        //            st.setString(8, no);
-        //
-        //            int k = st.executeUpdate();
-        //
-        //            //                }
-        //        } catch (SQLException ex) {
-        //            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
-        //        }
+        String idStaff = (String) jComboBox_idStaff.getSelectedItem();
+        String name = jTextField_Name.getText();
+        String area = (String) jComboBox_Area.getSelectedItem();
+        String time = (String) jComboBox_shift.getSelectedItem();
+        String date = jTextField_date.getText();
+        try {
+
+            st = con.prepareStatement("INSERT INTO `security_management`.`staffassignment` (`idSecurity`, `name`, `area`, `shiftTime`, `date`) VALUES (?,?,?,?,?);");
+            st.setString(1, idStaff);
+            st.setString(2, name);
+            st.setString(3, area);
+            st.setString(4, time);
+            st.setString(5, date);
+            int k = st.executeUpdate();
+
+            jTextField_Name.setText("");
+            jTextField_date.setText("");
+            load();
+        } catch (SQLException ex) {
+            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
 
+        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?", "Confirm Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+        // If the user clicks Yes, proceed with the delete operation
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                st = con.prepareStatement("DELETE FROM `security_management`.`staffassignment` WHERE (`idTask` = ?);");
+                st.setString(1, noTask);
+                int k = st.executeUpdate();
+                if (k > 0) {
+                    JOptionPane.showMessageDialog(null, "Record deleted successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Record not found.");
+                }
+                displayTask();
+            } catch (SQLException ex) {
+                Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error deleting record: " + ex.getMessage());
+            }
+        } else {
+            // User chose not to delete the record
+            JOptionPane.showMessageDialog(null, "Deletion cancelled.");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    private void displayTask() {
+        try {
+            st = con.prepareStatement("SELECT * FROM security_management.staffassignment;");
+            rs = st.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) jTable_information.getModel();
+            model.setRowCount(0);
+            while (rs.next()) {
+                String no = rs.getString(1);
+                String id = rs.getString(2);
+                String name = rs.getString(3);
+                String area = rs.getString(4);
+                String shift = rs.getString(5);
+                String date = rs.getString(6);
+
+                String[] row = {no, id, name, date, shift, area};
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void jTextField_SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_SearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_SearchActionPerformed
 
-    private void jTextField_snActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_snActionPerformed
+    private void jComboBox_AreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_AreaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_snActionPerformed
+    }//GEN-LAST:event_jComboBox_AreaActionPerformed
 
-    private void jTextField_salaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_salaryActionPerformed
+    private void jComboBox_shiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_shiftActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_salaryActionPerformed
+    }//GEN-LAST:event_jComboBox_shiftActionPerformed
 
-    private void jTextField_cityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_cityActionPerformed
+    private void jTextField_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_dateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_cityActionPerformed
+    }//GEN-LAST:event_jTextField_dateActionPerformed
 
-    private void jTextField_streetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_streetActionPerformed
-        // TODO add your handling code here:
+    private void jComboBox_idStaffMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_idStaffMouseClicked
+        String select = (String) jComboBox_idStaff.getSelectedItem();
         try {
+            st = con.prepareStatement("SELECT name FROM security_management.security where idSecurity =?;");
+            st.setString(1, select);
+            rs = st.executeQuery();
 
-        } catch (Exception e) {
+            if (rs.next()) {
+                jTextField_Name.setText(rs.getString("name"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Manager_Task.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jTextField_streetActionPerformed
+
+    }//GEN-LAST:event_jComboBox_idStaffMouseClicked
+
+    
+
+    public void load() {
+        jComboBox_idStaff.removeAllItems();
+        try {
+            st = con.prepareStatement("SELECT idSecurity FROM security_management.security;");
+            rs = st.executeQuery();
+            while (rs.next()) {
+
+                String Idstaff = rs.getString(1);
+                jComboBox_idStaff.addItem(Idstaff);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Manager_Task.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            st = con.prepareStatement("SELECT * FROM security_management.staffassignment;");
+            rs = st.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) jTable_information.getModel();
+            model.setRowCount(0);
+            while (rs.next()) {
+                String no = rs.getString(1);
+                String id = rs.getString(2);
+                String name = rs.getString(3);
+                String area = rs.getString(4);
+                String shift = rs.getString(5);
+                String date = rs.getString(6);
+
+                String[] row = {no, id, name, date, shift, area};
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -513,31 +573,30 @@ public class Manager_Task extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private raven.datetime.component.date.DatePicker datePicker1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton_Logout;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox_Area;
+    private javax.swing.JComboBox<String> jComboBox_idStaff;
+    private javax.swing.JComboBox<String> jComboBox_shift;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_information;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField_Name;
     private javax.swing.JTextField jTextField_Search;
-    private javax.swing.JTextField jTextField_city;
-    private javax.swing.JTextField jTextField_salary;
-    private javax.swing.JTextField jTextField_sn;
-    private javax.swing.JTextField jTextField_street;
+    private javax.swing.JTextField jTextField_date;
     // End of variables declaration//GEN-END:variables
 }

@@ -269,11 +269,12 @@ public class LoginManager extends javax.swing.JFrame {
             while (rs.next()) {
                 String uname = rs.getString("Prefix") + rs.getString("idManager");
                 String passw = rs.getString("Password");
-                String user_send = rs.getString("idManager");
+                String managerId = rs.getString("idManager");
                 if (password.equals(passw) && user.equals(uname)) {
                     JOptionPane.showMessageDialog(this, "Success Login");
 
-                    new Manager_Interface(user_send, password).setVisible(true);
+                    new Manager_Interface(managerId).setVisible(true);
+                        
                     this.setVisible(false);
                     flag = true;
                 }

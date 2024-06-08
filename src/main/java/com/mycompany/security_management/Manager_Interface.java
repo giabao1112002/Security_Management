@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 public class Manager_Interface extends javax.swing.JFrame {
 
     String Manager_id;
-    String PASSWORD;
     Connection con = DBContext.connect();
     PreparedStatement st; // Declare the PreparedStatement variable.
     ResultSet rs; // Declare the ResultSet variable.
@@ -33,13 +32,16 @@ public class Manager_Interface extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setResizable(false);
+        load();
+
     }
 
-    public Manager_Interface(String user_send, String password) {
-        Manager_id = user_send;
-        PASSWORD = password;
+    public Manager_Interface(String managerId) {
+        Manager_id = managerId;
         initComponents();
-
+        this.setResizable(false);
+        this.setLocationRelativeTo(this);
+        load();
     }
 
     /**
@@ -59,8 +61,7 @@ public class Manager_Interface extends javax.swing.JFrame {
         jTable_information = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jTextField_Search = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -80,6 +81,7 @@ public class Manager_Interface extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jTextField_salary = new javax.swing.JTextField();
         jButton_Logout = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -159,12 +161,17 @@ public class Manager_Interface extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable_information);
         if (jTable_information.getColumnModel().getColumnCount() > 0) {
             jTable_information.getColumnModel().getColumn(0).setResizable(false);
-            jTable_information.getColumnModel().getColumn(1).setResizable(false);
+            jTable_information.getColumnModel().getColumn(0).setPreferredWidth(30);
             jTable_information.getColumnModel().getColumn(2).setResizable(false);
+            jTable_information.getColumnModel().getColumn(2).setPreferredWidth(40);
             jTable_information.getColumnModel().getColumn(3).setResizable(false);
+            jTable_information.getColumnModel().getColumn(3).setPreferredWidth(30);
             jTable_information.getColumnModel().getColumn(4).setResizable(false);
+            jTable_information.getColumnModel().getColumn(4).setPreferredWidth(30);
             jTable_information.getColumnModel().getColumn(5).setResizable(false);
+            jTable_information.getColumnModel().getColumn(5).setPreferredWidth(30);
             jTable_information.getColumnModel().getColumn(6).setResizable(false);
+            jTable_information.getColumnModel().getColumn(7).setResizable(false);
         }
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -175,14 +182,11 @@ public class Manager_Interface extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Delete");
-
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton4.setText("Refresh");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton5.setText("Create Task");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -190,19 +194,18 @@ public class Manager_Interface extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(96, 96, 96)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(246, 246, 246)
+                        .addComponent(jButton5))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -214,8 +217,7 @@ public class Manager_Interface extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4))
+                    .addComponent(jButton5))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -386,6 +388,14 @@ public class Manager_Interface extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setText("Your Information");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -398,6 +408,8 @@ public class Manager_Interface extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_Logout)))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -407,7 +419,9 @@ public class Manager_Interface extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_Logout))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton_Logout)
+                        .addComponent(jButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -457,8 +471,8 @@ public class Manager_Interface extends javax.swing.JFrame {
             st.setString(8, no);
 
             int k = st.executeUpdate();
+            load();
 
-//                }
         } catch (SQLException ex) {
             Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -496,7 +510,42 @@ public class Manager_Interface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_emailActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jTable_informationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_informationMouseClicked
+        int row = jTable_information.rowAtPoint(evt.getPoint());
+        if (row >= 0) {
+            updateTextFields(row);
+        }
+    }//GEN-LAST:event_jTable_informationMouseClicked
+
+    private void jTextField_salaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_salaryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_salaryActionPerformed
+
+    private void jButton_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LogoutActionPerformed
+        this.setVisible(false);
+        new LoginManager().setVisible(true);
+    }//GEN-LAST:event_jButton_LogoutActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.print(Manager_id);
+        new ManagerInformation(Manager_id).setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        new Manager_Task().setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+    private void updateTextFields(int row) {
+        jTextField_sn.setText(jTable_information.getValueAt(row, 0).toString());
+        jTextField_name.setText(jTable_information.getValueAt(row, 1).toString());
+        jTextField_bd.setText(jTable_information.getValueAt(row, 2).toString());
+        jTextField_street.setText(jTable_information.getValueAt(row, 3).toString());
+        jTextField_city.setText(jTable_information.getValueAt(row, 4).toString());
+        jTextField_province.setText(jTable_information.getValueAt(row, 5).toString());
+        jTextField_email.setText(jTable_information.getValueAt(row, 6).toString());
+        jTextField_salary.setText(jTable_information.getValueAt(row, 7).toString());
+    }
+
+    private void load() {
         try {
             st = con.prepareStatement("SELECT * FROM security_management.security;");
             rs = st.executeQuery();
@@ -515,53 +564,28 @@ public class Manager_Interface extends javax.swing.JFrame {
                 String[] row = {no, name, birthday, street, city, province, email, salary};
                 model.addRow(row);
 
-//                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
-        }    }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jTable_informationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_informationMouseClicked
-        int row = jTable_information.rowAtPoint(evt.getPoint());
-        if (row >= 0) {
-            updateTextFields(row);
         }
-    }//GEN-LAST:event_jTable_informationMouseClicked
-
-    private void jTextField_salaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_salaryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_salaryActionPerformed
-
-    private void jButton_LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LogoutActionPerformed
-        this.setVisible(false);
-        new LoginManager().setVisible(true);
-    }//GEN-LAST:event_jButton_LogoutActionPerformed
-    private void updateTextFields(int row) {
-        jTextField_sn.setText(jTable_information.getValueAt(row, 0).toString());
-        jTextField_name.setText(jTable_information.getValueAt(row, 1).toString());
-        jTextField_bd.setText(jTable_information.getValueAt(row, 2).toString());
-        jTextField_street.setText(jTable_information.getValueAt(row, 3).toString());
-        jTextField_city.setText(jTable_information.getValueAt(row, 4).toString());
-        jTextField_province.setText(jTable_information.getValueAt(row, 5).toString());
-        jTextField_email.setText(jTable_information.getValueAt(row, 6).toString());
-        jTextField_salary.setText(jTable_information.getValueAt(row, 7).toString());
     }
 
     private void searchAndSelectRow(String name) {
-    DefaultTableModel model = (DefaultTableModel) jTable_information.getModel();
-    for (int i = 0; i < model.getRowCount(); i++) {
-        String tableName = model.getValueAt(i, 1).toString().toLowerCase();
-        if (tableName.contains(name.toLowerCase())) {
-            // Select the row and scroll to it
-            jTable_information.setRowSelectionInterval(i, i);
-            jTable_information.scrollRectToVisible(jTable_information.getCellRect(i, 0, true));
-            updateTextFields(i);
-            return;
+        DefaultTableModel model = (DefaultTableModel) jTable_information.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String tableName = model.getValueAt(i, 1).toString().toLowerCase();
+            if (tableName.contains(name.toLowerCase())) {
+                // Select the row and scroll to it
+                jTable_information.setRowSelectionInterval(i, i);
+                jTable_information.scrollRectToVisible(jTable_information.getCellRect(i, 0, true));
+                updateTextFields(i);
+                return;
+            }
         }
+        // If name not found, show a message dialog
+        JOptionPane.showMessageDialog(this, "Name not found", "Search Result", JOptionPane.INFORMATION_MESSAGE);
     }
-    // If name not found, show a message dialog
-    JOptionPane.showMessageDialog(this, "Name not found", "Search Result", JOptionPane.INFORMATION_MESSAGE);
-}
 
     /**
      * @param args the command line arguments
@@ -602,7 +626,7 @@ public class Manager_Interface extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton_Logout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
