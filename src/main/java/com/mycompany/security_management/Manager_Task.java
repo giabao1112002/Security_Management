@@ -406,23 +406,55 @@ public class Manager_Task extends javax.swing.JFrame {
         String time = (String) jComboBox_shift.getSelectedItem();
         String date = jTextField_date.getText();
         try {
-
-            st = con.prepareStatement("INSERT INTO `security_management`.`staffassignment` (`idSecurity`, `name`, `area`, `shiftTime`, `date`) VALUES (?,?,?,?,?);");
+            // Check if the staff member is already assigned to another area at the same time on the same date
+            st = con.prepareStatement("SELECT COUNT(*) AS count FROM `security_management`.`staffassignment` WHERE `idSecurity` = ? AND `date` = ? AND `shiftTime` = ? AND `area` <> ?");
             st.setString(1, idStaff);
-            st.setString(2, name);
-            st.setString(3, area);
-            st.setString(4, time);
-            st.setString(5, date);
-            int k = st.executeUpdate();
+            st.setString(2, date);
+            st.setString(3, time);
+            st.setString(4, area);
 
-            jTextField_Name.setText("");
-            jTextField_date.setText("");
-            load();
-            if (k > 0) {
-                JOptionPane.showMessageDialog(null, "Create Task successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            int count = rs.getInt("count");
+
+            if (count > 0) {
+                // If count > 0, staff member is already assigned to another area at the same time on the same date
+                JOptionPane.showMessageDialog(null, "Staff member is already assigned to another area at the same time on the same date.", "Duplicate Assignment", JOptionPane.WARNING_MESSAGE);
             } else {
-                // Show a panel if the insertion fails
-                JOptionPane.showMessageDialog(null, "Failed to update. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                // Check if a record with the same date, area, and shiftTime exists
+                st = con.prepareStatement("SELECT COUNT(*) AS count FROM `security_management`.`staffassignment` WHERE `area` = ? AND `shiftTime` = ? AND `date` = ?");
+                st.setString(1, area);
+                st.setString(2, time);
+                st.setString(3, date);
+
+                rs = st.executeQuery();
+                rs.next();
+                count = rs.getInt("count");
+
+                if (count > 0) {
+                    // If count > 0, record already exists, do not insert
+                    JOptionPane.showMessageDialog(null, "A record with the same area and shift time already exists for this date.", "Duplicate Record", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // Record does not exist, proceed with insertion
+                    st = con.prepareStatement("INSERT INTO `security_management`.`staffassignment` (`idSecurity`, `name`, `area`, `shiftTime`, `date`) VALUES (?,?,?,?,?);");
+                    st.setString(1, idStaff);
+                    st.setString(2, name);
+                    st.setString(3, area);
+                    st.setString(4, time);
+                    st.setString(5, date);
+
+                    int k = st.executeUpdate();
+
+                    jTextField_Name.setText("");
+                    jTextField_date.setText("");
+                    load();
+
+                    if (k > 0) {
+                        JOptionPane.showMessageDialog(null, "Create Task successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to update. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
