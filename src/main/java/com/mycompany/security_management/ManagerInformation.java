@@ -39,6 +39,7 @@ public class ManagerInformation extends javax.swing.JFrame {
         displayManagerInformation();
         this.setResizable(false);
         this.setLocationRelativeTo(this);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);  // Change made here
 
     }
 

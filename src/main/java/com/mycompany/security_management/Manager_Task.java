@@ -35,6 +35,7 @@ public class Manager_Task extends javax.swing.JFrame {
         displayTask();
         this.setLocationRelativeTo(this);
         this.setResizable(false);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);  // Change made here
         load();
     }
 
@@ -230,7 +231,7 @@ public class Manager_Task extends javax.swing.JFrame {
             }
         });
 
-        jComboBox_shift.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0am-8am", "8am-16pm", "16pm-0am" }));
+        jComboBox_shift.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0 AM-8 AM", "8 AM-16 PM", "16 PM-0 AM" }));
         jComboBox_shift.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_shiftActionPerformed(evt);
@@ -417,6 +418,12 @@ public class Manager_Task extends javax.swing.JFrame {
             jTextField_Name.setText("");
             jTextField_date.setText("");
             load();
+            if (k > 0) {
+                JOptionPane.showMessageDialog(null, "Create Task successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Show a panel if the insertion fails
+                JOptionPane.showMessageDialog(null, "Failed to update. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -500,8 +507,6 @@ public class Manager_Task extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jComboBox_idStaffMouseClicked
-
-    
 
     public void load() {
         jComboBox_idStaff.removeAllItems();

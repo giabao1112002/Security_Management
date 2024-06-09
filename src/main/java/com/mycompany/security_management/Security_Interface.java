@@ -8,8 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,7 +21,6 @@ import java.util.logging.Logger;
 public class Security_Interface extends javax.swing.JFrame {
 
     String Staff_id;
-    String DOB;
     Connection con = DBContext.connect();
     PreparedStatement st; // Declare the PreparedStatement variable.
     ResultSet rs; // Declare the ResultSet variable.
@@ -31,13 +33,13 @@ public class Security_Interface extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setResizable(false);
-        jLabel_SalaryInput.setText("Demo:999999999");
     }
 
-    public Security_Interface(String user_send, String password) {
-        Staff_id = user_send;
-        DOB = password;
+    public Security_Interface(String staffId) {
+        this.Staff_id = staffId;
         initComponents();
+        loadAll();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);  // Change made here
 
     }
 
@@ -74,21 +76,30 @@ public class Security_Interface extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jTextField_salary = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        RequestComboBox = new javax.swing.JComboBox<>();
-        jLabel_Manger = new javax.swing.JLabel();
-        jLabel_Reason = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel_Date = new javax.swing.JLabel();
         jLabel_StartTime = new javax.swing.JLabel();
-        jLabel_EndTime = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jTextField_Manger = new javax.swing.JTextField();
-        jTextField_Date = new javax.swing.JTextField();
-        jTextField_StartTimeAndReason = new javax.swing.JTextField();
-        jTextField_EndTime = new javax.swing.JTextField();
-        jTextField_Reason = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField_DateOver = new javax.swing.JTextField();
+        jComboBox_shift = new javax.swing.JComboBox<>();
+        jComboBox_area = new javax.swing.JComboBox<>();
+        jLabel16 = new javax.swing.JLabel();
+        jButton_overtime = new javax.swing.JButton();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel_Date1 = new javax.swing.JLabel();
+        jTextField_reason = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jTextField_DateLeave = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jButton_Over = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable_RequestStatus = new javax.swing.JTable();
+        jTable_RequestStatusLeave = new javax.swing.JTable();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable_RequestStatusOver = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -121,21 +132,35 @@ public class Security_Interface extends javax.swing.JFrame {
 
         JTable_Schedule.setBorder(new javax.swing.border.MatteBorder(null));
         JTable_Schedule.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        JTable_Schedule.setForeground(new java.awt.Color(255, 255, 255));
         JTable_Schedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Order", "Date", "Place", "Start Time", "End Time"
+                "ID Task", "Area", "Shift", "Date"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         JTable_Schedule.setRowSelectionAllowed(false);
         JTable_Schedule.setUpdateSelectionOnSort(false);
         JTable_Schedule.setVerifyInputWhenFocusTarget(false);
@@ -222,6 +247,7 @@ public class Security_Interface extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setText("Salary");
 
+        jTextField_salary.setEditable(false);
         jTextField_salary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_salaryActionPerformed(evt);
@@ -304,106 +330,216 @@ public class Security_Interface extends javax.swing.JFrame {
         );
 
         jPanel5.add(jPanel9);
-        jPanel9.setBounds(20, 160, 780, 190);
+        jPanel9.setBounds(30, 160, 790, 190);
 
         jTabbedPane2.addTab("Duty Schedule", jPanel5);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        RequestComboBox.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        RequestComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Overtime Request", "Leave Request" }));
-        RequestComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RequestComboBoxActionPerformed(evt);
-            }
-        });
-
-        jLabel_Manger.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel_Manger.setText("Manger");
-
-        jLabel_Reason.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel_Reason.setText("Reason");
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel_Date.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel_Date.setText("Date");
 
         jLabel_StartTime.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel_StartTime.setText("Start Time");
+        jLabel_StartTime.setText("Shift");
 
-        jLabel_EndTime.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel_EndTime.setText("End Time");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setText("Area");
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jButton2.setText("Submit");
+        jComboBox_shift.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0 AM-8 AM", "8 AM-16 PM", "16 PM-0 AM" }));
+
+        jComboBox_area.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Area A", "Area B", "Area C", "Area D" }));
+        jComboBox_area.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_areaActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel16.setText("Over Form:");
+
+        jButton_overtime.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jButton_overtime.setText("Submit");
+        jButton_overtime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_overtimeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel_StartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_shift, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_Date, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField_DateOver, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(jComboBox_area, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(41, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton_overtime, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_DateOver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox_shift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_StartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox_area, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(55, 55, 55)
+                .addComponent(jButton_overtime, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel_Date1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel_Date1.setText("Date");
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel14.setText("Reason");
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel15.setText("Leave Form:");
+
+        jButton_Over.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jButton_Over.setText("Submit");
+        jButton_Over.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_OverActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_Date1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField_reason, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_DateLeave, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(45, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton_Over, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jTextField_reason, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Date1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_DateLeave, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel14)))
+                .addGap(18, 18, 18)
+                .addComponent(jButton_Over, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel_Reason, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addComponent(RequestComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(141, 141, 141))
-                                .addComponent(jLabel_Date, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel_StartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel_EndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField_StartTimeAndReason, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField_Date, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField_EndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField_Reason, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                            .addGap(172, 172, 172)
-                            .addComponent(jLabel_Manger, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField_Manger, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(384, 384, 384)
-                        .addComponent(jButton2)))
-                .addContainerGap(333, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(RequestComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_Manger, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Manger, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_Date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_StartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_StartTimeAndReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_EndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_EndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_Reason, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Reason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(25, 25, 25))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Leave or Overtime Request", jPanel6);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable_RequestStatus.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+
+        jTable_RequestStatusLeave.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "No", "Date", "Reason", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable_RequestStatusLeave);
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel17.setText("Overtime Request:");
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel18.setText("Leave Request:");
+
+        jTable_RequestStatusOver.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -411,22 +547,67 @@ public class Security_Interface extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Order", "Manger", "Date", "Reason", "Status"
+                "No", "Date", "Shift", "Area", "Status"
             }
-        ));
-        jScrollPane1.setViewportView(jTable_RequestStatus);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(jTable_RequestStatusOver);
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel12Layout.createSequentialGroup()
+                    .addGap(10, 10, 10)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(685, Short.MAX_VALUE)))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel12Layout.createSequentialGroup()
+                    .addGap(10, 10, 10)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(324, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 278, Short.MAX_VALUE))
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab(" Request Status", jPanel7);
@@ -541,12 +722,17 @@ public class Security_Interface extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jButton1.setText("Log out");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Security Main Function");
+        jLabel3.setText("Security Dashboard");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -569,11 +755,14 @@ public class Security_Interface extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -582,7 +771,8 @@ public class Security_Interface extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -600,23 +790,6 @@ public class Security_Interface extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void RequestComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RequestComboBoxActionPerformed
-        // TODO add your handling code here:
-        if (RequestComboBox.getSelectedIndex() == 1) {
-            jLabel_StartTime.setText("Reason");
-            jLabel_EndTime.setText("");
-            jLabel_Reason.setText("");
-            jTextField_EndTime.setVisible(false);
-            jTextField_Reason.setVisible(false);
-        } else {
-            jLabel_StartTime.setText("Start Time");
-            jLabel_EndTime.setText("End Time");
-            jLabel_Reason.setText("Reason");
-            jTextField_EndTime.setVisible(true);
-            jTextField_Reason.setVisible(true);
-        }
-    }//GEN-LAST:event_RequestComboBoxActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String no = jTextField_sn.getText();
@@ -638,10 +811,17 @@ public class Security_Interface extends javax.swing.JFrame {
             st.setString(6, province);
             st.setString(7, email);
             st.setString(8, no);
-
             int k = st.executeUpdate();
+            if (k > 0) {
 
-            //                }
+                JOptionPane.showMessageDialog(null, "Update successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                // Show a panel if the insertion fails
+                JOptionPane.showMessageDialog(null, "Failed to update. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            loadAll();
+
         } catch (SQLException ex) {
             Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -679,6 +859,67 @@ public class Security_Interface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_salaryActionPerformed
 
+    private void jButton_OverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_OverActionPerformed
+        String date = jTextField_DateLeave.getText();
+        String reason = (String) jTextField_reason.getText();
+        try {
+            st = con.prepareStatement("INSERT INTO `security_management`.`leave_records` (`idSecurity`, `Date`, `reason`) VALUES (?, ?, ?);");
+            st.setString(1, Staff_id);
+            st.setString(2, date);
+            st.setString(3, reason);
+            int k = st.executeUpdate();
+            if (k > 0) {
+                jTextField_DateLeave.setText("");
+                jTextField_reason.setText("");
+                JOptionPane.showMessageDialog(null, "Record inserted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                // Show a panel if the insertion fails
+                JOptionPane.showMessageDialog(null, "Failed to insert record. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            loadAll();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton_OverActionPerformed
+
+    private void jButton_overtimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_overtimeActionPerformed
+        String date = jTextField_DateOver.getText();
+        String shift = (String) jComboBox_shift.getSelectedItem();
+        String area = (String) jComboBox_area.getSelectedItem();
+        try {
+            st = con.prepareStatement("INSERT INTO `security_management`.`overtime_records` (`idSecurity`, `date`, `Shiift`, `area`, `status`) VALUES (?,?, ?,?, ?);");
+            st.setString(1, Staff_id);
+            st.setString(2, date);
+            st.setString(3, shift);
+            st.setString(4, area);
+            st.setString(5, "Waiting");
+            int k = st.executeUpdate();
+            if (k > 0) {
+                jTextField_DateOver.setText("");
+                JOptionPane.showMessageDialog(null, "Record inserted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                // Show a panel if the insertion fails
+                JOptionPane.showMessageDialog(null, "Failed to insert record. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            loadAll();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton_overtimeActionPerformed
+
+    private void jComboBox_areaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_areaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_areaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new Login_Security().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -714,16 +955,124 @@ public class Security_Interface extends javax.swing.JFrame {
         });
     }
 
+    public void load() {
+        try {
+            st = con.prepareStatement("SELECT * FROM security_management.staffassignment where idSecurity= ? ;");
+            st.setString(1, Staff_id);
+            rs = st.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) JTable_Schedule.getModel();
+            model.setRowCount(0);
+            while (rs.next()) {
+                String no = rs.getString(1);
+                String area = rs.getString(4);
+                String shift = rs.getString(5);
+                String date = rs.getString(6);
+
+                String[] row = {no, area, shift, date};
+                model.addRow(row);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void load2() {
+        try {
+            st = con.prepareStatement("SELECT * FROM security_management.security where idSecurity= ? ;");
+            st.setString(1, Staff_id);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                String sn = rs.getString(1);
+                String name = rs.getString(2);
+                String bd = rs.getString(5);
+                String email = rs.getString(10);
+                String street = rs.getString(7);
+                String city = rs.getString(8);
+                String province = rs.getString(9);
+                String salary = rs.getString(6);
+                jTextField_sn.setText(sn);
+                jTextField_name.setText(name);
+                jTextField_bd.setText(bd);
+                jTextField_email.setText(email);
+                jTextField_street.setText(street);
+                jTextField_city.setText(city);
+                jTextField_province.setText(province);
+                jTextField_salary.setText(salary);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Security_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void loadOver() {
+        try {
+            st = con.prepareStatement(" SELECT * FROM security_management.overtime_records where idSecurity=?;");
+            st.setString(1, Staff_id);
+            rs = st.executeQuery();
+            DefaultTableModel leaveTable = (DefaultTableModel) jTable_RequestStatusOver.getModel();
+            leaveTable.setRowCount(0);
+            while (rs.next()) {
+                String no = rs.getString(1);
+                String date = rs.getString(3);
+                String shift = rs.getString(4);
+                String area = rs.getString(5);
+                String status = rs.getString(6);
+                String[] row = {no, date, shift, area, status};
+                leaveTable.addRow(row);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Security_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void loadLeave() {
+        try {
+            st = con.prepareStatement(" SELECT * FROM security_management.leave_records where idSecurity=?;");
+            st.setString(1, Staff_id);
+            rs = st.executeQuery();
+            DefaultTableModel leaveTable = (DefaultTableModel) jTable_RequestStatusLeave.getModel();
+            leaveTable.setRowCount(0);
+            while (rs.next()) {
+                String no = rs.getString(1);
+                String date = rs.getString(3);
+                String reason = rs.getString(4);
+                String status = rs.getString(5);
+                String[] row = {no, date, reason, status};
+                leaveTable.addRow(row);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Security_Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void loadAll() {
+        load();
+        load2();
+        loadOver();
+        loadLeave();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTable_Schedule;
-    private javax.swing.JComboBox<String> RequestComboBox;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton_Over;
+    private javax.swing.JButton jButton_overtime;
+    private javax.swing.JComboBox<String> jComboBox_area;
+    private javax.swing.JComboBox<String> jComboBox_shift;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -733,14 +1082,15 @@ public class Security_Interface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_Date;
-    private javax.swing.JLabel jLabel_EndTime;
-    private javax.swing.JLabel jLabel_Manger;
-    private javax.swing.JLabel jLabel_Reason;
+    private javax.swing.JLabel jLabel_Date1;
     private javax.swing.JLabel jLabel_SalaryInput;
     private javax.swing.JLabel jLabel_StartTime;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -750,20 +1100,20 @@ public class Security_Interface extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable_RequestStatus;
-    private javax.swing.JTextField jTextField_Date;
-    private javax.swing.JTextField jTextField_EndTime;
-    private javax.swing.JTextField jTextField_Manger;
-    private javax.swing.JTextField jTextField_Reason;
-    private javax.swing.JTextField jTextField_StartTimeAndReason;
+    private javax.swing.JTable jTable_RequestStatusLeave;
+    private javax.swing.JTable jTable_RequestStatusOver;
+    private javax.swing.JTextField jTextField_DateLeave;
+    private javax.swing.JTextField jTextField_DateOver;
     private javax.swing.JTextField jTextField_bd;
     private javax.swing.JTextField jTextField_city;
     private javax.swing.JTextField jTextField_email;
     private javax.swing.JTextField jTextField_name;
     private javax.swing.JTextField jTextField_province;
+    private javax.swing.JTextField jTextField_reason;
     private javax.swing.JTextField jTextField_salary;
     private javax.swing.JTextField jTextField_sn;
     private javax.swing.JTextField jTextField_street;

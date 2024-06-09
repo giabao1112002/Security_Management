@@ -33,6 +33,7 @@ public class Manager_Interface extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         this.setResizable(false);
         load();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);  // Change made here
 
     }
 
@@ -94,7 +95,7 @@ public class Manager_Interface extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Information Management");
+        jLabel1.setText("Management Dashboard");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -469,10 +470,15 @@ public class Manager_Interface extends javax.swing.JFrame {
             st.setString(6, province);
             st.setString(7, email);
             st.setString(8, no);
-
             int k = st.executeUpdate();
             load();
+            if (k > 0) {
+                JOptionPane.showMessageDialog(null, "Update successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
+            } else {
+                // Show a panel if the insertion fails
+                JOptionPane.showMessageDialog(null, "Failed to update. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Manager_Interface.class.getName()).log(Level.SEVERE, null, ex);
         }

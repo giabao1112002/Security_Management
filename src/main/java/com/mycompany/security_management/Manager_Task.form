@@ -454,9 +454,9 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
-                    <StringItem index="0" value="0am-8am"/>
-                    <StringItem index="1" value="8am-16pm"/>
-                    <StringItem index="2" value="16pm-0am"/>
+                    <StringItem index="0" value="0 AM-8 AM"/>
+                    <StringItem index="1" value="8 AM-16 PM"/>
+                    <StringItem index="2" value="16 PM-0 AM"/>
                   </StringArray>
                 </Property>
               </Properties>

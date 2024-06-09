@@ -26,6 +26,8 @@ public class LoginManager extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setResizable(false);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);  // Change made here
+
     }
 
     /**
@@ -274,7 +276,7 @@ public class LoginManager extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Success Login");
 
                     new Manager_Interface(managerId).setVisible(true);
-                        
+
                     this.setVisible(false);
                     flag = true;
                 }
@@ -323,24 +325,24 @@ public class LoginManager extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-public static void main(String args[]) {
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(LoginManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (Exception ex) {
-        java.util.logging.Logger.getLogger(LoginManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
 
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new LoginManager().setVisible(true);
-        }
-    });
-}
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LoginManager().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -284,7 +284,7 @@ public class Login_Security extends javax.swing.JFrame {
                 if (password.equals(passw) && user.equals(uname)) {
                     JOptionPane.showMessageDialog(this, "Success Login");
 
-                    new Security_Interface(user_send, password).setVisible(true);
+                    new Security_Interface(user_send).setVisible(true);
                     this.setVisible(false);
                     flag = true;
                 }
